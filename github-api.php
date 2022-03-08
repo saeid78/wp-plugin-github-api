@@ -28,20 +28,19 @@ function github_issues_func($atts, $gh=null ) {
    if ( empty($issues) )
       return "<strong>" . __("No issues to show", 'githup-api') . "</strong>";
 
-   // We're going to return a string. First, we open a list.
+   //  return a string
    $return = "<ul>";
 
    // Loop over the returned issues
    foreach( $issues as $issue ) {
 
       // Add a list item for each issue to the string
-      // (Feel free to get fancier here)
-      // Maybe make each one a link to the issue issuing $issue['url] )
+
       $return .= "<li>{$issue['title']}</li>";
 
    }
 
-   // Don't forget to close the list
+   
    $return .= "</ul>";
 
    return $return;
@@ -132,7 +131,7 @@ add_action( 'admin_post_oauth_submit', 'handle_oauth' );
 function handle_oauth() {
 
    // If the form was just submitted, save the values
-   // (Step 1 above)
+   
    if ( isset($_POST["client_id"]) &&
          isset($_POST["client_secret"])
    ) {
@@ -157,7 +156,7 @@ function handle_oauth() {
    }
 
    // If this is a form submission, start the workflow
-   // (Step 2)
+   
    if (!isset($_GET["code"]) && $_SERVER["REQUEST_METHOD"] === "POST") {
 
       // If we don't have an authorization code, then get one
@@ -167,7 +166,7 @@ function handle_oauth() {
       exit;
 
    // Check given state against previously stored one to mitigate CSRF attack
-   // (Step 3 just happened and the user was redirected back)
+
    } elseif (empty($_GET["state"]) || ($_GET["state"] !== $_SESSION["oauth2state"])) {
 
       unset($_SESSION["oauth2state"]);
@@ -176,7 +175,7 @@ function handle_oauth() {
    } else {
 
       // Try to get an access token (using the authorization code grant)
-      // (Step 4)
+  
       $token = $provider->getAccessToken("authorization_code", [
          "code" => $_GET["code"]
       ]);
